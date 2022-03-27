@@ -45,7 +45,7 @@ class Config(object):
     # Number of validation steps to run at the end of every training epoch.
     # A bigger number improves accuracy of validation stats, but slows
     # down the training.
-    VALIDATION_STEPS = 50
+    VALIDATION_STEPS = 2
 
     # Backbone network architecture
     # Supported values are: resnet50, resnet101.
@@ -64,13 +64,13 @@ class Config(object):
     BACKBONE_STRIDES = [4, 8, 16, 32, 64]
 
     # Size of the fully-connected layers in the classification graph
-    FPN_CLASSIF_FC_LAYERS_SIZE = 1024
+    FPN_CLASSIF_FC_LAYERS_SIZE = 512
 
     # Size of the top-down layers used to build the feature pyramid
     TOP_DOWN_PYRAMID_SIZE = 256
 
     # Number of classification classes (including background)
-    NUM_CLASSES = 1  # Override in sub-classes
+    NUM_CLASSES = 2  # Override in sub-classes
 
     # Length of square anchor side in pixels
     RPN_ANCHOR_SCALES = (32, 64, 128, 256, 512)
@@ -95,8 +95,8 @@ class Config(object):
     PRE_NMS_LIMIT = 6000
 
     # ROIs kept after non-maximum suppression (training and inference)
-    POST_NMS_ROIS_TRAINING = 2000
-    POST_NMS_ROIS_INFERENCE = 1000
+    POST_NMS_ROIS_TRAINING = 100
+    POST_NMS_ROIS_INFERENCE = 50
 
     # If enabled, resizes instance masks to a smaller size to reduce
     # memory load. Recommended when using high-resolution images.
@@ -124,8 +124,8 @@ class Config(object):
     #         size IMAGE_MIN_DIM x IMAGE_MIN_DIM. Can be used in training only.
     #         IMAGE_MAX_DIM is not used in this mode.
     IMAGE_RESIZE_MODE = "square"
-    IMAGE_MIN_DIM = 512
-    IMAGE_MAX_DIM = 512
+    IMAGE_MIN_DIM = 256
+    IMAGE_MAX_DIM = 256
     # Minimum scaling ratio. Checked after MIN_IMAGE_DIM and can force further
     # up scaling. For example, if set to 2 then images are scaled up to double
     # the width and height, or more, even if MIN_IMAGE_DIM doesn't require it.
@@ -144,7 +144,7 @@ class Config(object):
     # enough positive proposals to fill this and keep a positive:negative
     # ratio of 1:3. You can increase the number of proposals by adjusting
     # the RPN NMS threshold.
-    TRAIN_ROIS_PER_IMAGE = 200
+    TRAIN_ROIS_PER_IMAGE = 20
 
     # Percent of positive ROIs used to train classifier/mask heads
     ROI_POSITIVE_RATIO = 0.33

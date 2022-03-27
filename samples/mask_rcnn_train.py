@@ -7,7 +7,7 @@ import time
 from PIL import Image, ImageDraw
 
 # Set the ROOT_DIR variable to the root directory of the Mask_RCNN git repo
-ROOT_DIR = '/home/filip/Documents/DP/Mask-RCNN/Mask_RCNN'
+ROOT_DIR = '/home/filipspes/MaskRCNN/Mask_RCNN'
 assert os.path.exists(ROOT_DIR), 'ROOT_DIR does not exist. Did you forget to read the instructions above? ;)'
 
 # Import mrcnn libraries
@@ -163,12 +163,12 @@ class CocoLikeDataset(utils.Dataset):
         return mask, class_ids
 
 dataset_train = CocoLikeDataset()
-dataset_train.load_data('/home/filip/Documents/DP/Mask-RCNN/Mask_RCNN/datasets/fingerprints_pores/train/coco_annotations.json', '/home/filip/Documents/DP/Mask-RCNN/Mask_RCNN/datasets/fingerprints_pores/train/images')
+dataset_train.load_data('/home/filipspes/MaskRCNN/Mask_RCNN/datasets/fingerprints_pores/train/coco_annotations.json', '/home/filipspes/MaskRCNN/Mask_RCNN/datasets/fingerprints_pores/train/images')
 dataset_train.prepare()
 print('Size of Train dataset: %d' % len(dataset_train.image_ids))
 
 dataset_val = CocoLikeDataset()
-dataset_val.load_data('/home/filip/Documents/DP/Mask-RCNN/Mask_RCNN/datasets/fingerprints_pores/val/coco_annotations.json', '/home/filip/Documents/DP/Mask-RCNN/Mask_RCNN/datasets/fingerprints_pores/val/images')
+dataset_val.load_data('/home/filipspes/MaskRCNN/Mask_RCNN/datasets/fingerprints_pores/val/coco_annotations.json', '/home/filipspes/MaskRCNN/Mask_RCNN/datasets/fingerprints_pores/val/images')
 dataset_val.prepare()
 print('Size of Val dataset: %d' % len(dataset_val.image_ids))
 
