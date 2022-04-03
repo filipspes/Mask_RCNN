@@ -7,7 +7,7 @@ import time
 from PIL import Image, ImageDraw
 
 # Set the ROOT_DIR variable to the root directory of the Mask_RCNN git repo
-ROOT_DIR = '/home/filip/Documents/DP/Mask-RCNN/Mask_RCNN/'
+ROOT_DIR = '/home/filip/Documents/DP/MRCNN/Mask_RCNN/'
 assert os.path.exists(ROOT_DIR), 'ROOT_DIR does not exist. Did you forget to read the instructions above? ;)'
 
 # Import mrcnn libraries
@@ -24,10 +24,6 @@ MODEL_DIR = os.path.join(ROOT_DIR, "logs")
 COCO_MODEL_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
 
 # Download COCO trained weights from Releases if needed
-if not os.path.exists(COCO_MODEL_PATH):
-    utils.download_trained_weights(COCO_MODEL_PATH)
-
-
 
 class CigButtsConfig(Config):
     """Configuration for training on the cigarette butts dataset.
@@ -57,7 +53,7 @@ class CigButtsConfig(Config):
     VALIDATION_STEPS = 5
 
     # Matterport originally used resnet101, but I downsized to fit it on my graphics card
-    BACKBONE = 'resnet50'
+    BACKBONE = 'resnet101'
 
     # To be honest, I haven't taken the time to figure out what these do
     RPN_ANCHOR_SCALES = (8, 16, 32, 64, 128)
@@ -74,7 +70,7 @@ class InferenceConfig(CigButtsConfig):
     IMAGES_PER_GPU = 1
     IMAGE_MIN_DIM = 512
     IMAGE_MAX_DIM = 512
-    DETECTION_MIN_CONFIDENCE = 0.999
+    DETECTION_MIN_CONFIDENCE = 0.5
 
 
 inference_config = InferenceConfig()
@@ -178,18 +174,18 @@ class CocoLikeDataset(utils.Dataset):
         return mask, class_ids
 
 dataset_train = CocoLikeDataset()
-dataset_train.load_data('/home/filip/Documents/DP/Mask-RCNN/Mask_RCNN/datasets/fingerprints_pores/train/coco_annotations.json', '/home/filip/Documents/DP/Mask-RCNN/Mask_RCNN/datasets/fingerprints_pores/train/images')
+dataset_train.load_data(ROOT_DIR+'/datasets/fingerprints_pores/train/coco_annotations.json', ROOT_DIR+'/datasets/fingerprints_pores/train/images')
 dataset_train.prepare()
 print('Size of Train dataset: %d' % len(dataset_train.image_ids))
 
 dataset_val = CocoLikeDataset()
-dataset_val.load_data('/home/filip/Documents/DP/Mask-RCNN/Mask_RCNN/datasets/fingerprints_pores/val/coco_annotations.json', '/home/filip/Documents/DP/Mask-RCNN/Mask_RCNN/datasets/fingerprints_pores/val/images')
+dataset_val.load_data(ROOT_DIR+'/datasets/fingerprints_pores/val/coco_annotations.json', ROOT_DIR+'/datasets/fingerprints_pores/val/images')
 dataset_val.prepare()
 print('Size of Val dataset: %d' % len(dataset_val.image_ids))
 
 # Get path to saved weights
 # Either set a specific path or find last trained weights
-# model_path = os.path.join(ROOT_DIR, ".h5 file name here")
+model_path = os.path.join(MODEL_DIR, "mask_rcnn_fingerprints_0100.h5")
 model_path = model.find_last()
 
 # Load trained weights (fill in path to trained weights here)
@@ -198,7 +194,8 @@ print("Loading weights from ", model_path)
 model.load_weights(model_path, by_name=True)
 
 import skimage
-real_test_dir = '/home/filip/Documents/DP/Mask-RCNN/Mask_RCNN/samples/PoresDetection/parts_of_image/'
+#real_test_dir = ROOT_DIR+'/samples/PoresDetection/parts_of_image/'
+real_test_dir = '/home/filip/Documents/DP/MRCNN/Mask_RCNN/datasets/fingerprints_pores/real_test/'
 image_paths = []
 file_names = []
 for filename in os.listdir(real_test_dir):
@@ -211,8 +208,10 @@ for image_path, file_name in zip(image_paths, file_names):
     img_arr = np.array(img)
     results = model.detect([img_arr], verbose=1)
     r = results[0]
-    visualize.display_instances(img, file_name, r['rois'], r['masks'], r['class_ids'],
-                                dataset_val.class_names, r['scores'], figsize=(5,5))
+    visualize.display_instances(img, r['rois'], r['masks'], r['class_ids'],
+                            dataset_val.class_names, r['scores'])
+    #visualize.display_instances(img, file_name, r['rois'], r['masks'], r['class_ids'],
+                                #dataset_val.class_names, r['scores'], figsize=(5,5))
 
 
 

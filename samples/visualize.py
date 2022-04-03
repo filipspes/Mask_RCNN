@@ -167,9 +167,9 @@ def display_instances(image, filename, boxes, masks, class_ids, class_names,
     ax.imshow(masked_image.astype(np.uint8))
     #img1 = Image.fromarray(masked_image.astype(np.uint8), 'RGB')
     #img1.save('/home/filipspes/MaskRCNN/Mask_RCNN/samples/PoresDetection/pores_detected/'+filename)
-    #plt.savefig('/home/filipspes/MaskRCNN/Mask_RCNN/samples/PoresDetection/pores_detected/'+filename, bbox_inches='tight', pad_inches=0.1, orientation='landscape')
-    if auto_show:
-        plt.show()
+    plt.savefig('/home/filip/Documents/DP/MRCNN/Mask_RCNN/samples/PoresDetection/pores_detected/'+filename, bbox_inches='tight', pad_inches=0.1, orientation='landscape')
+    #if not auto_show:
+        #plt.show()
 
 
 def display_differences(image,

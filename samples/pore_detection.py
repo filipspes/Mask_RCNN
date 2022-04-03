@@ -72,6 +72,14 @@ def remove_content_of_folders(folder):
 if __name__ == '__main__':
     current_working_directory = os.getcwd()
     print(current_working_directory)
+    if not os.path.exists(current_working_directory+'/PoresDetection/parts_of_image'):
+        os.makedirs(current_working_directory+'/PoresDetection/parts_of_image')
+    if not os.path.exists(current_working_directory+'/PoresDetection/pores_detected'):
+        os.makedirs(current_working_directory+'/PoresDetection/pores_detected')
+    if not os.path.exists(current_working_directory+'/PoresDetection/final_fingerprint'):
+        os.makedirs(current_working_directory+'/PoresDetection/final_fingerprint')
+    if not os.path.exists(current_working_directory+'/PoresDetection/high_resolution_image'):
+        os.makedirs(current_working_directory+'/PoresDetection/high_resolution_image')
     fullImageInputPath = current_working_directory
     print("Removing content of folders...")
     remove_content_of_folders(current_working_directory+"/PoresDetection/parts_of_image/")

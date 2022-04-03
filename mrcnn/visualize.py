@@ -1,7 +1,6 @@
 """
 Mask R-CNN
 Display and Visualization Functions.
-
 Copyright (c) 2017 Matterport, Inc.
 Licensed under the MIT License (see LICENSE for details)
 Written by Waleed Abdulla
@@ -19,7 +18,6 @@ import matplotlib.pyplot as plt
 from matplotlib import patches,  lines
 from matplotlib.patches import Polygon
 import IPython.display
-import uuid
 
 # Root directory of the project
 ROOT_DIR = os.path.abspath("../")
@@ -81,7 +79,7 @@ def apply_mask(image, mask, color, alpha=0.5):
     return image
 
 
-def display_instances(image, filename, boxes, masks, class_ids, class_names,
+def display_instances(image, boxes, masks, class_ids, class_names,
                       scores=None, title="",
                       figsize=(16, 16), ax=None,
                       show_mask=True, show_bbox=True,
@@ -99,7 +97,6 @@ def display_instances(image, filename, boxes, masks, class_ids, class_names,
     captions: (optional) A list of strings to use as captions for each object
     """
     # Number of instances
-    from PIL import Image
     N = boxes.shape[0]
     if not N:
         print("\n*** No instances to display *** \n")
@@ -165,10 +162,6 @@ def display_instances(image, filename, boxes, masks, class_ids, class_names,
             p = Polygon(verts, facecolor="none", edgecolor=color)
             ax.add_patch(p)
     ax.imshow(masked_image.astype(np.uint8))
-    #img1 = Image.fromarray(masked_image.astype(np.uint8), 'RGB')
-    plt.axis('off')
-    #img1.save('/home/filipspes/MaskRCNN/Mask_RCNN/samples/PoresDetection/pores_detected/'+filename)
-    plt.savefig('/home/filipspes/MaskRCNN/Mask_RCNN/samples/PoresDetection/pores_detected/'+filename, bbox_inches='tight', pad_inches = 0)
     if auto_show:
         plt.show()
 
@@ -310,7 +303,6 @@ def display_top_masks(image, mask, class_ids, class_names, limit=4):
 
 def plot_precision_recall(AP, precisions, recalls):
     """Draw the precision-recall curve.
-
     AP: Average precision at IoU >= 0.5
     precisions: list of precision values
     recalls: list of recall values
@@ -367,7 +359,6 @@ def draw_boxes(image, boxes=None, refined_boxes=None,
                title="", ax=None):
     """Draw bounding boxes and segmentation masks with different
     customizations.
-
     boxes: [N, (y1, x1, y2, x2, class_id)] in image coordinates.
     refined_boxes: Like boxes, but draw with solid lines to show
         that they're the result of refining 'boxes'.
